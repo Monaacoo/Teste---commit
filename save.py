@@ -9,15 +9,15 @@ class GitAutoCommitHandler(FileSystemEventHandler):
         if event.is_directory:
             return
 
-        # Ignora arquivos dentro da pasta .git
+        #Ignora arquivos dentro da pasta .git para evitar erro de verificação
         if ".git" in event.src_path:
             return
 
-        print(f"📄 Arquivo modificado: {event.src_path}")
+        print(f"Arquivo modificado: {event.src_path}")
         try:
             subprocess.run(["git", "add", "."], check=True)
 
-            # git commit só se houver mudanças
+            #git commit só se houver mudanças
             commit = subprocess.run(
                 ["git", "commit", "-m", "auto commit"],
                 capture_output=True,
@@ -25,12 +25,12 @@ class GitAutoCommitHandler(FileSystemEventHandler):
             )
             if commit.returncode == 0:
                 subprocess.run(["git", "push"], check=True)
-                print("✅ Commit + Push automático realizado!\n")
+                print("Commit + Push realizado\n")
             else:
-                print("⚠️ Nada para commitar.")
+                print("Nada para commitar")
 
         except subprocess.CalledProcessError as e:
-            print(f"❌ Erro ao executar comando: {e}")
+            print(f"Erro: {e}")
 
 if __name__ == "__main__":
     path = "."  # repositório atual
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
-    print("👀 Monitorando alterações... Ctrl+C para parar.\n")
+    print("Rodando...\n")
 
     try:
         while True:
