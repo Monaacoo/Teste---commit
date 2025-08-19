@@ -7,4 +7,4 @@ print (f'teste deu certo: {teste}')
 oi = 12
 
 print(f'oi deu certo: {oi}')
-a = 1
+a = 10
